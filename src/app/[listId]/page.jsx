@@ -36,7 +36,7 @@ export default function GroceryListPage() {
   const handleAddItem = async () => {
     try {
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/grocery`,
+        `/api/grocery`,
         {
           method: "PUT",
           headers: {
