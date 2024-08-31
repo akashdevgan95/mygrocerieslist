@@ -19,9 +19,7 @@ export default function GroceryListPage() {
   useEffect(() => {
     const fetchGroceryList = async () => {
       try {
-        const response = await fetch(
-          `/api/grocery?listId=${listId}`
-        );
+        const response = await fetch(`/api/grocery?listId=${listId}`);
         const data = await response.json();
         const sortedItems = sortItems(data.grocery.items);
         setGroceryList({ ...data.grocery, items: sortedItems });
@@ -35,20 +33,17 @@ export default function GroceryListPage() {
 
   const handleAddItem = async () => {
     try {
-      const response = await fetch(
-        `/api/grocery`,
-        {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            listId: listId,
-            isPurchased: false,
-            items: [...groceryList.items, { name: newItem, id: uuidv4() }],
-          }),
-        }
-      );
+      const response = await fetch(`/api/grocery`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          listId: listId,
+          isPurchased: false,
+          items: [...groceryList.items, { name: newItem, id: uuidv4() }],
+        }),
+      });
       const data = await response.json();
       const sortedItems = sortItems(data.resp.items);
       setGroceryList({ ...data.resp, items: sortedItems });
@@ -58,13 +53,6 @@ export default function GroceryListPage() {
     }
   };
 
-  if (!groceryList) {
-    return (
-      <main className="flex h-screen items-center justify-center">
-        Loading...
-      </main>
-    );
-  }
   const handleKeyPress = (e) => {
     if (e.key === "Enter" && newItem.trim() !== "") {
       handleAddItem();
@@ -86,51 +74,57 @@ export default function GroceryListPage() {
   };
 
   return (
-    <main className="flex h-screen items-center justify-center">
+    <main className="flex h-screen items-center justify-center w-[90%] mx-auto ">
       <div className="border border-gray-300 rounded-md  max-h-[80vh] overflow-y-auto">
         {/* when sticky add shadow */}
         <h1
-          className={`text-3xl font-bold text-center sticky top-0 bg-white z-10 px-10 py-8 ${
-            groceryList.items.length > 0 ? "shadow-md" : ""
+          className={`text-3xl font-bold text-center sticky top-0 bg-white z-10 px-5 sm:px-10 py-8 ${
+            groceryList?.items?.length > 0 ? "border-b border-gray-300" : ""
           }`}
         >
           My Groceries List
         </h1>
-        <div className="flex items-center justify-between mt-5 mb-5 px-10">
-          <input
-            onKeyDown={handleKeyPress}
-            type="text"
-            placeholder="Add Item"
-            className="border border-gray-300 rounded-md p-2"
-            value={newItem}
-            onChange={(e) => setNewItem(e.target.value)}
-          />
-          <button
-            onClick={handleAddItem}
-            className="bg-black ml-5 text-white px-4 py-2 rounded-md"
-          >
-            <Plus />
-          </button>
-        </div>
-        <div className="px-10">
-          {groceryList.items.map((item) => (
-            <ListItem
-              key={item.id}
-              itemDetails={item}
-              listId={listId}
-              items={groceryList.items}
-              setGroceryList={setGroceryList}
-            />
-          ))}
-        </div>
-        <div className="flex items-center justify-center px-10 pb-10">
-          <button
-            onClick={handleShareList}
-            className="bg-black text-white px-4 py-2 rounded-md w-full mt-5 flex items-center justify-center"
-          >
-            <Share2 className="mr-2" size={16} /> Share List
-          </button>
-        </div>
+        {!groceryList ? (
+          <p className="text-center text-gray-500 py-10 text-xl">Loading...</p>
+        ) : (
+          <div className="py-10 px-5 sm:px-10">
+            <div className="flex items-center justify-between mb-5 w-full">
+              <input
+                onKeyDown={handleKeyPress}
+                type="text"
+                placeholder="Add Item"
+                className="border border-gray-300 rounded-md p-2 w-full"
+                value={newItem}
+                onChange={(e) => setNewItem(e.target.value)}
+              />
+              <button
+                onClick={handleAddItem}
+                className="bg-black ml-5 text-white px-4 py-2 rounded-md w-[50px] text-center"
+              >
+                <Plus size={20} className="inline-block" />
+              </button>
+            </div>
+            <div>
+              {groceryList.items.map((item) => (
+                <ListItem
+                  key={item.id}
+                  itemDetails={item}
+                  listId={listId}
+                  items={groceryList.items}
+                  setGroceryList={setGroceryList}
+                />
+              ))}
+            </div>
+            <div className="flex items-center justify-center">
+              <button
+                onClick={handleShareList}
+                className="bg-black text-white px-4 py-2 rounded-md w-full mt-5 flex items-center justify-center"
+              >
+                <Share2 className="mr-2" size={16} /> Share List
+              </button>
+            </div>
+          </div>
+        )}
       </div>
     </main>
   );
