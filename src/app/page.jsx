@@ -10,7 +10,7 @@ export default function Home() {
   const createNewGroceryList = async () => {
     setIsLoading(true);
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/grocery`, {
+      const response = await fetch(`/api/grocery`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

@@ -20,7 +20,7 @@ export default function GroceryListPage() {
     const fetchGroceryList = async () => {
       try {
         const response = await fetch(
-          `${process.env.NEXT_PUBLIC_API_URL}/api/grocery?listId=${listId}`
+          `/api/grocery?listId=${listId}`
         );
         const data = await response.json();
         const sortedItems = sortItems(data.grocery.items);
