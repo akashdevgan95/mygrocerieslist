@@ -25,20 +25,6 @@ export async function POST(req) {
     }
 }
 
-// get a grocery list by listId
-export async function GET(req) {
-    try {
-        const { searchParams } = new URL(req.url);
-        console.log('searchParams ', searchParams);
-        const listId = searchParams.get('listId');
-        await connectMongo();
-        const grocery = await Grocery.findOne({ listId });
-        return NextResponse.json({ grocery });
-    } catch (error) {
-        return NextResponse.json({ error: error.message });
-    }
-}
-
 // update a grocery list by listId
 export async function PUT(req) {
     try {
@@ -54,8 +40,6 @@ export async function PUT(req) {
         });
 
         const updatedGrocery = await Grocery.findOne({ listId });
-
-        console.log('updatedGrocery ', updatedGrocery);
         return NextResponse.json({ resp: updatedGrocery });
     } catch (error) {
         return NextResponse.json({ error: error.message });

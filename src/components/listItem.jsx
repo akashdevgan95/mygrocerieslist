@@ -1,45 +1,12 @@
-"use client";
-
-import { Trash, Check, CircleX } from "lucide-react";
-
 //utils
 import { sortItems } from "../utils/helpers";
 
-const ListItem = ({ itemDetails, listId, items, setGroceryList }) => {
+//components
+import ListItemAction from "./listItemAction";
+import AddNewItem from "./addNewItem";
+
+const ListItem = ({ itemDetails, listId, items }) => {
   const { name, id } = itemDetails;
-
-  const updateItem = async (items) => {
-    const response = await fetch(
-      `/api/grocery`,
-      {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          listId,
-          items,
-        }),
-      }
-    );
-
-    const data = await response.json();
-    const sortedItems = sortItems(data.resp.items);
-    setGroceryList({ ...data.resp, items: sortedItems });
-  };
-
-  const handleDeleteItem = async () => {
-    const updatedItems = items.filter((item) => item.id !== id);
-    await updateItem(updatedItems);
-  };
-
-  const handleCheckItem = async () => {
-    const updatedItems = items.map((item) =>
-      item.id === id ? { ...item, isPurchased: !item.isPurchased } : item
-    );
-    await updateItem(updatedItems);
-  };
-  
 
   return (
     <div
@@ -54,26 +21,12 @@ const ListItem = ({ itemDetails, listId, items, setGroceryList }) => {
       >
         {name}
       </h2>
-      <div className="flex items-center justify-between gap-5">
-        <button
-          onClick={handleCheckItem}
-          className={`text-black transition-all duration-300 hover:text-green-500 ${
-            itemDetails.isPurchased ? "text-green-500" : ""
-          }`}
-        >
-          {itemDetails.isPurchased ? (
-            <CircleX size={18} />
-          ) : (
-            <Check size={18} />
-          )}
-        </button>
-        <button
-          onClick={handleDeleteItem}
-          className=" text-black transition-all duration-300 hover:text-red-500"
-        >
-          <Trash size={18} />
-        </button>
-      </div>
+      <ListItemAction
+        itemDetails={itemDetails}
+        listId={listId}
+        items={items}
+        id={id}
+      />
     </div>
   );
 };
