@@ -37,24 +37,6 @@ const ListItemAction = ({ itemDetails, listId, items, id }) => {
     await updateItem(updatedItems);
   };
 
-  // useEffect(() => {
-  //   const handleKeyDown = (e) => {
-  //     if (e.key === "c") {
-  //       const elements = document.querySelectorAll(".client");
-  //       elements.forEach((element) => {
-  //         element.style.border = "2px solid red";
-  //       });
-  //     } else if (e.key === "r") {
-  //       const elements = document.querySelectorAll(".client");
-  //       elements.forEach((element) => {
-  //         element.style.border = "none";
-  //       });
-  //     }
-  //   };
-  //   window.addEventListener("keydown", handleKeyDown);
-  //   return () => window.removeEventListener("keydown", handleKeyDown);
-  // }, []);
-
   return (
     <div className="flex items-center justify-between gap-5 client">
       <button

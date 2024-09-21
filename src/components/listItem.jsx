@@ -1,9 +1,5 @@
-//utils
-import { sortItems } from "../utils/helpers";
-
 //components
 import ListItemAction from "./listItemAction";
-import AddNewItem from "./addNewItem";
 
 const ListItem = ({ itemDetails, listId, items }) => {
   const { name, id } = itemDetails;

@@ -47,7 +47,8 @@ const AddNewItem = ({ listId, sortedItems }) => {
       />
       <button
         onClick={handleAddItem}
-        className="bg-black ml-5 text-white px-4 py-2 rounded-md w-[50px] text-center"
+        disabled={newItem.trim() === ""}
+        className={`bg-black ml-5 text-white px-4 py-2 rounded-md w-[50px] text-center ${newItem.trim() === "" ? "opacity-50 cursor-not-allowed" : ""}`}
       >
         <Plus size={20} className="inline-block" />
       </button>

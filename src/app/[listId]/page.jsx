@@ -1,5 +1,3 @@
-import { Plus, Share2 } from "lucide-react";
-import { v4 as uuidv4 } from "uuid";
 import connectMongo from "../../config/db";
 
 //models
@@ -15,8 +13,14 @@ import AddNewItem from "../../components/addNewItem";
 
 export default async function GroceryListPage({ params }) {
   const { listId } = params;
+
   await connectMongo();
   const grocery = await Grocery.findOne({ listId });
+  
+  if (!grocery) {
+    return <div>No grocery list found</div>;
+  }
+
   const sortedItems = sortItems(grocery.items);
 
   return (
